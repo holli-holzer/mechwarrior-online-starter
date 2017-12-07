@@ -1,7 +1,7 @@
 # mechwarrior-online-starter
 
 This script launches the Mechwarrior Online Client and eliminates the tedious need to click through the
-startup screens and having to enter your password every time.
+loading screens and having to enter your password every time.
 
 The script also detects game crashes and automatically restarts the game if one should happen.
 
