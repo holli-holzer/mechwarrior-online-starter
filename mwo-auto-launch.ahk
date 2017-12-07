@@ -58,7 +58,7 @@ StartMWO()
 
 		; Wait for the Client to launch
 		WinWait, MechWarrior Online,, 20
-		
+		WinActivate, MechWarrior Online
 		if ErrorLevel
 			return 0
 			
@@ -82,21 +82,23 @@ StartPlaying()
 
 	; Press Space a few times to skip the loading screen
 	Loop %MWOScreenLoops% {
+		WinActivate, MechWarrior Online
 		Sleep, %MWOScreenTime%
 		SendInput {Esc}
 	}
 	
 	; Type the password
 	Sleep, %MWOScreenTime%
+	WinActivate, MechWarrior Online
 	SendInput %MWOPassword%
-	Sleep 100
+	Sleep 500
 	; Click login
-	;Click  %MWOPlayButtonXCoord%, %MWOPlayButtonYCoord%
+	Click  %MWOPlayButtonXCoord%, %MWOPlayButtonYCoord%
 }
 
 ProcessExist(Name)
 {
-	Process,Exist,%Name%
+	Process, Exist, %Name%
 	return Errorlevel
 }
 
@@ -112,9 +114,9 @@ MWORunning()
 	}
 }
 
-Crashed()
+MWOHasCrashed()
 {
-	IfWinExist, Crash
+	IfWinExist, Unexpected Error
 	{
 		return 1
 	}
@@ -124,10 +126,16 @@ Crashed()
 	}
 }
 
-ReStartMWO()
+RestartMWO()
 {
-	MsgBox, ReStartMWO
-    WinKill Crash
+	Run taskkill /f /im dxdiag.exe
+	Run taskkill /f /im MWOClient.exe
+	
+	while MWORunning() 
+	{
+		; wait
+	}
+	
 	StartMWO()
 }
 
@@ -136,9 +144,9 @@ WatchMWO()
 	while MWORunning() 
 	{
 		Sleep, 2000
-		if Crashed()
+		if MWOHasCrashed()
 		{
-			ReStartMWO()
+			RestartMWO()
 		}
 	}
 }
