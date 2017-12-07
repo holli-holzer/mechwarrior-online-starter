@@ -1,3 +1,6 @@
+; hinders multiple invocations of the script
+#SingleInstance
+
 ; mwo-auto-launch
 ; Version 0.2
 ;
@@ -5,12 +8,9 @@
 ;
 ; This script launches the Mechwarrior Online Client
 ; and eliminates the tedious need to enter your password every time
-; to play.
+; to play. It also restarts the game when it crashes.
 ;
 ; To make it work you will need to edit this script.
-;
-; This script must be run as administrator because the program it has to control "remotely"
-; needs administrator priviliges itself.
 ;
 ; See you on the battlefield Mechwarrior
 
@@ -18,10 +18,10 @@
 ; This is the password the script uses to login to the MWO-Servers
 ; change after the =
 
-MWOPassword = seifenoper
+MWOPassword = Y0urPassword
 
 ; This is the directory where the MWOClient.exe is located
-; Change the value after the = if your its location is different on your machine
+; Change the value after the = if its location is different on your machine
 
 MWODirectory = C:\MWO\MechWarrior Online\Bin64
 
@@ -37,6 +37,10 @@ MWOScreenLoops = 3
 ; Screen coordinates of the "Play" button
 MWOPlayButtonXCoord = 780
 MWOPlayButtonYCoord = 550
+
+; Screen coordinates of the "Password" textbox
+MWOPasswordBoxXCoord = 780
+MWOPasswordBoxYCoord = 480
 	
 ; Check for administrator priviliges
 
@@ -59,6 +63,7 @@ StartMWO()
 		; Wait for the Client to launch
 		WinWait, MechWarrior Online,, 20
 		WinActivate, MechWarrior Online
+
 		if ErrorLevel
 			return 0
 			
@@ -68,7 +73,7 @@ StartMWO()
 	return 0
 }
 
-; Function to skip the start screens and enter the password
+; Function to skip the loading screens and enter the password
 StartPlaying()
 {
 	global MWOPassword 
@@ -77,23 +82,30 @@ StartPlaying()
 	global MWOScreenTime
 	global MWOPlayButtonXCoord
 	global MWOPlayButtonYCoord
+	global MWOPasswordBoxXCoord
+	global MWOPasswordBoxYCoord
 	
 	Sleep, %MWOStartupTime%
 
-	; Press Space a few times to skip the loading screen
+	; Press  [Escape] a few times to skip the loading screens
 	Loop %MWOScreenLoops% {
 		WinActivate, MechWarrior Online
 		Sleep, %MWOScreenTime%
 		SendInput {Esc}
 	}
 	
+	; Click the password textbox
+	WinActivate, MechWarrior Online
+	Click %MWOPasswordBoxXCoord%, %MWOPasswordBoxYCoord%
+	Sleep 150
+		
 	; Type the password
-	Sleep, %MWOScreenTime%
 	WinActivate, MechWarrior Online
 	SendInput %MWOPassword%
 	Sleep 500
+		
 	; Click login
-	Click  %MWOPlayButtonXCoord%, %MWOPlayButtonYCoord%
+	Click %MWOPlayButtonXCoord%, %MWOPlayButtonYCoord%
 }
 
 ProcessExist(Name)
@@ -128,6 +140,7 @@ MWOHasCrashed()
 
 RestartMWO()
 {
+	; Get rid of the directX error window and any potential idling game instance
 	Run taskkill /f /im dxdiag.exe
 	Run taskkill /f /im MWOClient.exe
 	
