@@ -25,7 +25,7 @@ The time (in milliseconds) the script waits before it presses Esc the first time
 
     MWODirectory = C:\Program Files\MechWarrior Online\Bin32
 
-Game executabe directory, you only need to change this if you picked an alternative location while installing the game.
+Game executable directory, you only need to change this if you picked an alternative location while installing the game.
 
     MWOScreenLoops = 3
     
@@ -35,3 +35,8 @@ Number of time the script presses Esc before attempting to enter the password, y
     MWOPlayButtonYCoord = 550
 
 Screen coordinates of the "Play" button, you should not need to change this.
+
+    MWOPlayButtonXCoord = 780
+    MWOPlayButtonYCoord = 480
+
+Screen coordinates of the "Password" textbox, you should not need to change this.
