@@ -13,7 +13,9 @@ To make the script work you will need to edit it and change some values to fit y
 
     MWOPassword = Y0urPassword
     
-Change "Y0urPassword" to whatever your password is.
+Change "Y0urPassword" to whatever your password is. I realize this is a sensible topic. But the script is
+simple and it is easy for anyone with a bit of computer knowledge to verify it does nothing evil with your
+information. I've written the code as easy to understand as possible. So if you don't trust this, read [the code](https://github.com/holli-holzer/mechwarrior-online-starter/blob/master/start-mwo.ahk).
 
     MWOStartupTime = 13000
 
