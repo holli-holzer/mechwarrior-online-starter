@@ -42,13 +42,6 @@ MWOPlayButtonYCoord = 550
 MWOPasswordBoxXCoord = 780
 MWOPasswordBoxYCoord = 480
 	
-; Check for administrator priviliges
-
-;if not A_IsAdmin
-;{
-;	MsgBox, 48, MWO Auto Launch - Error, This script must be run as administrator.
-;	ExitApp, -1
-;}
 
 ; Start The MWO Client
 StartMWO()
@@ -167,7 +160,7 @@ WatchMWO()
 if ( StartMWO() )
 {
 	StartPlaying()
-    WatchMWO()
+	WatchMWO()
 }
 else
 {
